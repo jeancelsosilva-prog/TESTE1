@@ -883,115 +883,129 @@ kbd{
 html,body{max-width:100%;overflow-x:hidden}
 #app,#shell-body,#content,#topbar{max-width:100%}
 /* Roteiro semanal */
-.im-layout { display: grid; gap: 12px; font-size: 14px; line-height: 1.55; }
+.im-route #app { height: 100vh; height: 100dvh; }
+.im-route .lang-btn.planned { opacity: 1; cursor: pointer; color: var(--tx2); }
+.im-layout { display: grid; gap: 12px; max-width: 820px; font-size: 14px; line-height: 1.55; }
+.im-layout [hidden] { display: none !important; }
 .im-layout :is(h1, h2, h3, p, ul, ol, dl, dd) { margin: 0; }
 .im-layout p { overflow-wrap: anywhere; }
-.im-layout :is(a, button, input, select, textarea, summary):focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.im-layout :is(a, button, input, select, textarea, summary):focus-visible { outline: 2px solid var(--tx); outline-offset: 2px; }
+.im-layout :is([role="tabpanel"], h2, h3, button, input) { scroll-margin-top: 58px; }
 .im-layout a { color: var(--tx); text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 3px; font-weight: 600; }
 .im-layout a:hover { text-decoration-thickness: 2px; }
-.im-layout .im-kicker, .im-progress-label, .im-progress-foot, .im-task-time, .im-day-index {
+.im-kicker, .im-progress-label, .im-progress-foot, .im-task-time, .im-rail-info, .im-session-time {
   font-family: 'JetBrains Mono', ui-monospace, monospace;
   font-size: 11px;
   letter-spacing: .025em;
+  color: var(--tx2);
 }
-.im-layout .im-kicker, .im-muted { color: var(--tx2); }
-.im-layout .im-kicker { text-transform: uppercase; margin-bottom: 5px; }
+.im-layout .im-kicker { text-transform: uppercase; margin-bottom: 4px; }
+.im-muted { color: var(--tx2); }
 .im-hero {
-  display: grid; grid-template-columns: 1.05fr 1fr; align-items: center; gap: 20px;
-  padding: clamp(15px, 3.5vw, 26px); border: 1px solid var(--bd); border-top: 2px solid var(--accent);
+  display: grid; grid-template-columns: 1fr minmax(275px, 1fr); align-items: center; gap: 16px;
+  padding: clamp(12px, 2.5vw, 22px); border: 1px solid var(--bd); border-top: 2px solid var(--accent);
   background: linear-gradient(120deg, var(--accent-a), var(--s1) 68%); border-radius: var(--r);
 }
-.im-hero h1 { font: 700 clamp(26px, 4vw, 38px)/1.08 'Space Grotesk', system-ui, sans-serif; letter-spacing: -.04em; margin-bottom: 8px; }
-.im-hero p:not(.im-kicker) { color: var(--tx); max-width: 40ch; }
-.im-progress { min-width: 0; padding: 12px 13px; background: var(--s0); border: 1px solid var(--bd); }
-.im-progress-label, .im-progress-foot { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 4px 12px; }
-.im-progress-label strong { font-size: 22px; font-weight: 600; color: var(--tx); }
-.im-progress-foot { color: var(--tx2); }
-.im-progress progress { display: block; width: 100%; height: 7px; margin: 6px 0 8px; appearance: none; accent-color: var(--accent); border: 0; background: var(--s3); }
+.im-hero h1 { font: 700 clamp(24px, 4vw, 34px)/1.07 'Space Grotesk', system-ui, sans-serif; letter-spacing: -.035em; }
+.im-progress { min-width: 0; padding: 8px 10px; background: var(--s0); border: 1px solid var(--bd); }
+.im-progress-label, .im-progress-foot { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 2px 8px; }
+.im-progress-label strong { font-size: 17px; color: var(--tx); }
+.im-progress progress { display: block; width: 100%; height: 5px; margin: 5px 0; appearance: none; accent-color: var(--accent); border: 0; background: var(--s3); }
 .im-progress progress::-webkit-progress-bar { background: var(--s3); }
 .im-progress progress::-webkit-progress-value { background: var(--accent); }
 .im-progress progress::-moz-progress-bar { background: var(--accent); }
-.im-jumps, .im-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; }
+.im-tabs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 2px; position: sticky; top: 0; z-index: 3; background: var(--s0); padding: 3px; border: 1px solid var(--bd); }
+.im-tabs button {
+  min-width: 0; min-height: 44px; padding: 4px; border: 1px solid transparent;
+  background: transparent; color: var(--tx); cursor: pointer; font: 600 13px/1.2 system-ui, sans-serif;
+}
+.im-tabs button[aria-selected="true"] { background: var(--accent-a); border-bottom: 2px solid var(--accent); }
+.im-tabs button:focus-visible { outline-offset: -3px; }
+.im-pane { display: grid; gap: 10px; min-width: 0; }
+.im-actions, .im-subnav { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.im-subnav { justify-content: space-between; }
+.im-subnav .im-actions { flex: 1; justify-content: end; }
 .im-panel { min-width: 0; border: 1px solid var(--bd); border-radius: var(--r); background: var(--s1); }
-.im-week, .im-panel-content { padding: clamp(12px, 3vw, 20px); }
-.im-panel > summary { padding: 12px clamp(12px, 3vw, 20px); font-weight: 700; }
+.im-panel-content, .im-week, .im-session { padding: clamp(10px, 2.25vw, 16px); }
+.im-panel > h2 { padding: 10px clamp(10px, 2.25vw, 16px); border-bottom: 1px solid var(--bd); font-size: 18px; }
+.im-heading-meta { color: var(--tx2); font-size: 12px; font-weight: 400; }
+.im-panel > summary { padding: 10px clamp(10px, 2.25vw, 16px); font-weight: 700; }
 .im-panel[open] > summary { border-bottom: 1px solid var(--bd); }
-.im-panel-content { display: grid; gap: 12px; }
-.im-week-nav { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 6px; margin-bottom: 15px; }
-.im-layout select, .im-layout input:not([type=checkbox]), .im-layout textarea {
-  width: 100%; min-width: 0; padding: 8px 10px; min-height: 42px; color: var(--tx);
+.im-panel-content, .im-vocab-groups, .im-barrel-folders { display: grid; gap: 10px; }
+.im-week-nav { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 6px; margin-bottom: 9px; }
+.im-layout select, .im-layout input, .im-layout textarea {
+  width: 100%; min-width: 0; min-height: 42px; padding: 7px 9px; color: var(--tx);
   background: var(--s0); border: 1px solid var(--bd); border-radius: var(--r); font: inherit;
 }
 .im-button, .im-text-button {
-  cursor: pointer; font: 600 13px/1.25 system-ui, sans-serif; color: var(--tx);
-  min-height: 38px; padding: 7px 10px; background: var(--s2); border: 1px solid var(--bd); border-radius: var(--r);
+  cursor: pointer; min-height: 44px; padding: 6px 9px; font: 600 13px/1.25 system-ui, sans-serif;
+  color: var(--tx); background: var(--s2); border: 1px solid var(--bd); border-radius: var(--r);
 }
-.im-button:hover:not(:disabled) { border-color: var(--accent); }
-.im-button:disabled { cursor: default; opacity: .42; }
-.im-primary { border-color: var(--accent); background: var(--accent-a); }
-.im-text-button { padding: 4px 0; min-height: 32px; background: transparent; border: 0; text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 3px; }
-.im-week h2 { font: 700 clamp(20px, 3vw, 27px)/1.2 'Space Grotesk', system-ui, sans-serif; margin-bottom: 5px; }
-.im-brief { display: grid; grid-template-columns: 1fr 1.65fr; gap: 10px; margin: 14px 0 16px; }
-.im-brief > div { border-left: 2px solid var(--accent); background: var(--s2); padding: 9px 11px; }
-.im-brief p { margin-top: 3px; }
-.im-day-header { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 12px; margin: 4px 0 8px; }
-.im-day-header h3 { font-size: 16px; }
-.im-day-header label { display: flex; align-items: center; gap: 8px; font-size: 12px; }
-.im-day-header select { width: auto; }
-#im-days { display: grid; gap: 6px; margin-top: 12px; }
-.im-day, .im-subpanel { border: 1px solid var(--bd); background: var(--s0); }
-.im-layout summary { cursor: pointer; }
-.im-day > summary { display: grid; grid-template-columns: 48px minmax(0,1fr) auto auto; align-items: center; gap: 6px 10px; padding: 9px 10px; min-height: 44px; }
-.im-day > summary strong { min-width: 0; }
-.im-day > summary::-webkit-details-marker { display: none; }
-.im-day-index { color: var(--tx2); }
-.im-day-index::before { content: '›'; display: inline-block; width: 14px; color: var(--tx); }
-.im-day[open] .im-day-index::before { transform: rotate(90deg); }
-.im-day-min { color: var(--tx2); white-space: nowrap; }
-.im-done { color: var(--tx); background: var(--accent-a); font-size: 11px; }
-.im-done:not(:empty) { padding: 1px 5px; }
-.im-day-content { padding: 0 10px 10px; }
-.im-tasks, .im-items, .im-word-list, .im-resources { list-style: none; padding: 0; }
-.im-tasks li { display: grid; grid-template-columns: 50px minmax(0, 1fr); gap: 7px; border-top: 1px solid var(--bd2); padding: 8px 0; }
-.im-task-time { color: var(--tx2); }
+.im-button:hover:not(:disabled, [aria-disabled="true"]) { border-color: var(--accent); }
+.im-button:disabled { cursor: default; opacity: .5; }
+.im-button[aria-disabled="true"] { cursor: default; color: var(--tx2); }
+.im-primary, .im-button[aria-pressed="true"] { border-color: var(--accent); background: var(--accent-a); }
+.im-text-button { background: transparent; border: 0; padding-inline: 0; text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 3px; }
+.im-week-title, .im-session-top { display: flex; align-items: center; flex-wrap: wrap; justify-content: space-between; gap: 6px 12px; }
+.im-week-title h2, .im-session-top h3 { font: 700 clamp(18px, 3vw, 23px)/1.18 'Space Grotesk', system-ui, sans-serif; }
+.im-week-title label { display: flex; align-items: center; gap: 5px; color: var(--tx2); font-size: 12px; }
+.im-week-title select { width: auto; min-height: 38px; }
+.im-rail-info { margin: 8px 0 4px; }
+.im-day-rail { display: grid; grid-template-columns: repeat(7, minmax(0,1fr)); gap: 4px; }
+.im-day-chip { display: flex; align-items: center; gap: 3px; justify-content: center; padding: 3px; }
+.im-chip-status { color: var(--tx2); }
+.im-chip-done .im-chip-status { color: var(--tx); }
+.im-brief { margin-top: 8px; }
+.im-brief-content { display: grid; gap: 7px; border-top: 1px solid var(--bd); padding: 10px; }
+.im-session-top { margin-bottom: 6px; }
+.im-session-time { white-space: nowrap; background: var(--s2); padding: 4px 7px; }
+.im-tasks, .im-items, .im-word-list, .im-resources, .im-day-words ul { list-style: none; padding: 0; }
+.im-tasks li { display: grid; grid-template-columns: 47px minmax(0, 1fr); gap: 6px; border-top: 1px solid var(--bd2); padding: 8px 0; }
 .im-tasks p { margin-top: 2px; }
-.im-checkbox { display: flex; align-items: center; gap: 8px; min-height: 44px; cursor: pointer; }
-.im-checkbox input { width: 18px; height: 18px; accent-color: var(--accent); }
-.im-subpanel > summary { padding: 9px 11px; font-weight: 600; }
-.im-subpanel > :is(ul, p, .im-reading) { border-top: 1px solid var(--bd); padding: 9px 11px; }
+.im-task-actions { margin-top: 3px; }
+.im-session-footer { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 9px; }
+.im-session-footer > .im-button { flex: 1 1 155px; }
+.im-complete-done { border-color: var(--p3); }
+.im-subpanel { min-width: 0; border: 1px solid var(--bd); background: var(--s0); }
+.im-layout summary { cursor: pointer; }
+.im-subpanel > summary { display: list-item; padding: 8px 10px; font-weight: 600; min-height: 40px; }
+.im-subpanel > :is(ul, p, .im-reading) { border-top: 1px solid var(--bd); padding: 8px 10px; }
 .im-reading { display: grid; gap: 6px; }
-.im-items li, .im-word-list li, .im-resources li { display: flex; align-items: center; justify-content: space-between; gap: 9px; padding: 7px 0; }
+.im-items li, .im-word-list li, .im-resources li { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 6px 0; }
 .im-items li + li, .im-word-list li + li, .im-resources li + li { border-top: 1px solid var(--bd2); }
-.im-items li > div:first-child, .im-resources li > div { min-width: 0; overflow-wrap: anywhere; }
+.im-items li > div:first-child, .im-word-list li > div, .im-resources li > div { min-width: 0; overflow-wrap: anywhere; }
 .im-items li small, .im-word-list li small { display: block; color: var(--tx2); }
 .im-core { display: inline-block; font-size: 10px; margin-left: 3px; padding: 0 4px; background: var(--accent-a); }
-.im-form { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 10px; }
+.im-day-words li + li { margin-top: 4px; }
+.im-form { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 8px; }
 .im-form label { display: grid; align-content: start; gap: 3px; }
 .im-form :is(h3, fieldset, label:has(textarea), .im-actions) { grid-column: 1 / -1; }
-.im-edit-form { border-top: 1px solid var(--bd); padding-top: 10px; }
-.im-minute-fields { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 8px; padding: 8px; border: 1px solid var(--bd); }
+.im-edit-form { border-top: 1px solid var(--bd); padding-top: 8px; }
+.im-minute-fields { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 6px; padding: 7px; border: 1px solid var(--bd); }
 .im-minute-fields legend { padding: 0 4px; }
-.im-flash { display: grid; gap: 8px; justify-items: start; border: 1px solid var(--bd); padding: 10px; margin-top: 6px; background: var(--s0); overflow-wrap: anywhere; }
+.im-flash { display: grid; gap: 8px; justify-items: start; border: 1px solid var(--bd); padding: 9px; margin-top: 6px; background: var(--s0); overflow-wrap: anywhere; }
 .im-flash p { white-space: pre-wrap; }
-.im-method-list { display: grid; gap: 10px; }
+.im-method-list { display: grid; gap: 8px; }
 .im-method-list dt { font-weight: 700; }
-.im-method-list dd { color: var(--tx); }
 .im-sr { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 .im-copy-dialog { width: min(560px, 92vw); margin: auto; padding: 16px; color: var(--tx); background: var(--s1); border: 1px solid var(--bd); }
 .im-copy-dialog::backdrop { background: rgba(0,0,0,.65); }
 .im-copy-dialog textarea { display: block; margin: 8px 0; }
 @media (max-width: 600px) {
-  .im-hero, .im-brief, .im-form { grid-template-columns: minmax(0,1fr); }
-  .im-hero { gap: 12px; }
+  .im-layout { gap: 8px; }
+  .im-hero, .im-form { grid-template-columns: minmax(0,1fr); }
+  .im-hero { gap: 6px; }
+  .im-hero-title { display: flex; align-items: baseline; flex-wrap: wrap-reverse; flex-direction: row-reverse; justify-content: space-between; gap: 2px 8px; }
+  .im-hero-title .im-kicker { margin: 0; }
   .im-minute-fields { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .im-subnav .im-actions { min-width: 100%; justify-content: start; }
 }
 @media (max-width: 420px) {
-  .im-day > summary { grid-template-columns: 36px minmax(0, 1fr) auto; column-gap: 6px; }
-  .im-done:not(:empty) { grid-column: 2; width: fit-content; }
+  .im-tabs button { font-size: 12px; }
+  .im-day-rail { gap: 3px; }
+  .im-day-chip { gap: 1px; font-size: 11px; }
   .im-items li { flex-wrap: wrap; }
 }
-.im-day-words ul { list-style: none; }
-.im-day-words li + li { margin-top: 4px; }
 
 </style>
 </head>
@@ -2631,7 +2645,8 @@ let currentPage = 'visao';
    TROCA DE IDIOMA
 ═══════════════════════════════════════════════════════ */
 function switchLang(lang) {
-  if (currentPage === 'imersao' && lang !== currentLang) window.speechSynthesis?.cancel();
+  const resetImmersionScroll = currentPage === 'imersao' && lang !== currentLang;
+  if (resetImmersionScroll) window.speechSynthesis?.cancel();
   if (PROGRAMS[lang].status === 'planned' && lang !== 'es') {
     // Permite entrar mesmo em "planejado" para ver o conteúdo
   }
@@ -2647,6 +2662,7 @@ function switchLang(lang) {
   // Botões de idioma
   document.querySelectorAll('.lang-btn').forEach(btn => {
     const l = btn.dataset.lang;
+    btn.setAttribute('aria-pressed', String(l === lang));
     btn.className = 'lang-btn';
     if (l === lang) btn.classList.add('active-' + lang);
     else if (PROGRAMS[l].status === 'planned') btn.classList.add('planned');
@@ -2657,6 +2673,7 @@ function switchLang(lang) {
 
   // Renderizar página atual
   renderPage(currentPage);
+  if (resetImmersionScroll) document.getElementById('content').scrollTop = 0;
 }
 
 /* ═══════════════════════════════════════════════════════
@@ -2726,7 +2743,12 @@ function renderPage(pageId) {
     return;
   }
 
+  document.body.classList.toggle('im-route', pageId === 'imersao');
   root.innerHTML = langContent[pageId]();
+  if (pageId === 'imersao') {
+    restoreImmersionDrafts(currentLang);
+    return;
+  }
   acessibilizarAccordions(root);
 
   // Reinit ranges após renderização
@@ -3681,6 +3703,8 @@ const IMMERSION_BANDS = ['Fundação', 'Elementar', 'Intermediário'];
 const IMMERSION_DAY_NAMES = ['Entender a cena', 'Escutar e imitar', 'Ler e minerar frases', 'Responder ao vídeo', 'Escrever com correção', 'Simular uma situação', 'Revisar e medir'];
 const IMMERSION_KEY = 'immersion';
 const IMMERSION_VIEWS = {};
+const IMMERSION_TABS = [['study', 'Estudar'], ['materials', 'Materiais'], ['review', 'Revisar'], ['plan', 'Meu plano']];
+const IMMERSION_MATERIALS = [['trecho', 'Trecho'], ['vocab', 'Vocabulário'], ['barrel', 'Barril']];
 const IMMERSION_INTERVALS = [1, 3, 7, 14, 30];
 const IMMERSION_LEVEL_TASKS = [
   'Use frases curtas. Aceite imagem, transcrição e pausas. Produza uma resposta por vez.',
@@ -3753,20 +3777,34 @@ function nextImmersionDay(lang, state, from = 1) {
   for (let day = from; day <= count; day++) {
     if (!state.done[day]) return day;
   }
-  for (let day = 1; day < from; day++) {
-    if (!state.done[day]) return day;
-  }
   return 0;
 }
 
 function immersionView(lang) {
   if (!IMMERSION_VIEWS[lang]) {
-    const day = Math.min(PROGRAMS[lang].totalDays, Math.max(1, Number(getStore(lang, 'currentDay')) || 1));
-    const savedWeek = getStore(lang, 'immersionWeek');
-    const week = Number.isInteger(savedWeek) && savedWeek >= 1 && savedWeek <= immersionWeekCount(lang) ? savedWeek : Math.ceil(day / 7);
-    IMMERSION_VIEWS[lang] = { week, type: 2, edit: -1, revealed: false };
+    const count = PROGRAMS[lang].totalDays;
+    const stored = getStore(lang, 'immersionNavigation') || {};
+    const legacyWeek = getStore(lang, 'immersionWeek');
+    const programDay = Number(getStore(lang, 'currentDay'));
+    const programFallback = Number.isInteger(programDay) && programDay >= 1 && programDay <= count ? programDay : 1;
+    let fallback = programFallback;
+    if (Number.isInteger(legacyWeek) && legacyWeek >= 1 && legacyWeek <= immersionWeekCount(lang)) {
+      const first = (legacyWeek - 1) * 7 + 1;
+      const pending = nextImmersionDay(lang, immersionState(lang), first);
+      fallback = pending && pending <= first + 6 ? pending : first;
+    }
+    const day = Number.isInteger(stored.day) && stored.day >= 1 && stored.day <= count ? stored.day : fallback;
+    const type = Number.isInteger(stored.type) && stored.type >= 0 && stored.type < IMMERSION_TYPES.length ? stored.type : 2;
+    IMMERSION_VIEWS[lang] = {
+      week: Math.ceil(day / 7), day, type, edit: -1, revealed: false,
+      pane: 'study', material: 'trecho', returnFocus: '', drafts: {}
+    };
   }
   return IMMERSION_VIEWS[lang];
+}
+
+function saveImmersionPosition(lang, view) {
+  setStore(lang, 'immersionNavigation', { day: view.day, type: view.type });
 }
 
 function immersionBand(lang, week, profile) {
@@ -3870,39 +3908,121 @@ function buildImmersionProgress(lang, state) {
     <div class="im-progress-foot"><span>${done} de ${total} dias concluídos</span><span>Geral · ${IMMERSION_PERCENT.format(allDone / allTotal)} <span class="im-muted">(${allDone}/${allTotal})</span></span></div>`;
 }
 
-function immersionResource(resource, index) {
+function immersionResource(resource, index, state) {
+  const saved = state.items.some(item => item.url === immersionURL(resource[1]));
   return `<li><div><a href="${resource[1]}" target="_blank" rel="noopener noreferrer">${immersionEscape(resource[0])} ↗</a>
     <div class="im-muted">${immersionEscape(resource[2])}</div></div>
-    <button type="button" class="im-button" data-im-action="save-resource" data-value="${index}">Guardar</button></li>`;
+    <button type="button" class="im-button" data-im-action="save-resource" data-value="${index}" aria-disabled="${saved}">${saved ? '✓ Salvo' : 'Guardar'}</button></li>`;
 }
 
-function immersionDays(lesson, lang, profile, state, view) {
-  const minutes = profile.minutes[view.type];
-  const next = nextImmersionDay(lang, state, lesson.firstDay);
+function immersionDayTitle(lesson, day) {
+  return lesson.final && day === lesson.lastDay ? 'Avaliação de saída' : IMMERSION_DAY_NAMES[day - lesson.firstDay];
+}
+
+function immersionWeekPicker(lang, selected) {
+  const phases = PROGRAMS[lang].phases;
+  const groups = phases.map(() => []);
+  IMMERSION_ORDER[lang].trim().split(/\s+/).forEach((key, i) => {
+    const start = i * 7 + 1;
+    const phase = phases.findIndex(item => start <= item.end);
+    groups[phase].push(`<option value="${i + 1}" ${i + 1 === selected ? 'selected' : ''}>Semana ${i + 1} · ${immersionEscape(IMMERSION_THEMES[key].title)}</option>`);
+  });
+  return groups.map((options, i) => `<optgroup label="${immersionEscape(phases[i].name)}">${options.join('')}</optgroup>`).join('');
+}
+
+function immersionPending(lang, state, day) {
+  const later = nextImmersionDay(lang, state, day + 1);
+  if (later) return { day: later, label: `Próximo pendente · D${later}` };
+  const first = nextImmersionDay(lang, state);
+  return first && first < day ? { day: first, label: `Voltar ao pendente · D${first}` } : null;
+}
+
+function immersionStudyNavigation(lesson, state, view) {
   const count = lesson.lastDay - lesson.firstDay + 1;
-  const lexicon = lesson.lexicon.flat();
+  const days = Array.from({ length: count }, (_, index) => lesson.firstDay + index);
+  const done = days.filter(day => state.done[day]).length;
+  return `<div class="im-rail-info" id="im-week-progress">${done} de ${count} na semana</div>
+    <div class="im-day-rail" role="group" aria-label="Dias da semana ${view.week}">
+      ${days.map(day => `<button type="button" class="im-button im-day-chip ${state.done[day] ? 'im-chip-done' : ''}" id="im-chip-${day}"
+        aria-label="Dia ${day} · ${immersionDayTitle(lesson, day)} · ${state.done[day] ? 'concluído' : 'pendente'}"
+        aria-pressed="${day === view.day}" data-im-action="select-day" data-value="${day}">
+        <span>D${day}</span><span aria-hidden="true" class="im-chip-status">${state.done[day] ? '✓' : '·'}</span>
+      </button>`).join('')}
+    </div>`;
+}
+
+function immersionStudyDay(lesson, lang, profile, state, view) {
+  const day = view.day;
+  const index = day - lesson.firstDay;
+  const minutes = profile.minutes[view.type];
+  const tasks = immersionDayParts(index, lesson, lang, profile, minutes);
+  const words = lesson.lexicon.flat();
+  const count = lesson.lastDay - lesson.firstDay + 1;
+  const daily = lesson.final ? words.slice(index, index + 4)
+    : words.slice(Math.floor(index * words.length / count), Math.floor((index + 1) * words.length / count));
   const markupLang = lang === 'zh' ? 'zh-Hans' : lang;
-  return Array.from({ length: count }, (_, index) => {
-    const day = lesson.firstDay + index;
-    const tasks = immersionDayParts(index, lesson, lang, profile, minutes);
-    const final = lesson.final && day === lesson.lastDay;
-    const words = lesson.final ? lexicon.slice(index, index + 4)
-      : lexicon.slice(Math.floor(index * lexicon.length / count), Math.floor((index + 1) * lexicon.length / count));
-    return `<details class="im-day" id="im-day-${day}" data-keep ${day === next ? 'open' : ''}>
-      <summary><span class="im-day-index">D${day}</span><strong>${final ? 'Avaliação de saída' : IMMERSION_DAY_NAMES[index]}</strong>
-        <span class="im-day-min">${minutes} min</span><span class="im-done" data-day-indicator="${day}">${state.done[day] ? 'Concluído' : ''}</span></summary>
-      <div class="im-day-content">
-        <ol class="im-tasks">${tasks.map(([duration, title, action, jump]) => `<li><span class="im-task-time">${duration} min</span><div><strong>${title}</strong><p>${immersionEscape(action)}</p>
-          ${jump ? `<button type="button" class="im-text-button" data-im-action="${['writing', 'roleplay', 'checkin'].includes(jump) ? jump : 'jump'}" data-value="${jump}">${{ trecho: 'Abrir material', vocab: 'Abrir vocabulário', cards: 'Abrir flashcards', writing: 'Copiar prompt de correção', roleplay: 'Copiar prompt de roleplay', checkin: 'Abrir check-in' }[jump]}</button>` : ''}
-        </div></li>`).join('')}</ol>
-        <details class="im-subpanel im-day-words" id="im-day-words-${day}" data-keep>
-          <summary>${lesson.final ? 'Revisão' : 'Vocabulário para reconhecer'} · ${words.length} itens</summary>
-          <ul>${words.map(row => `<li><strong lang="${markupLang}">${immersionEscape(row.word)}</strong>
-            ${row.pinyin ? `<span lang="zh-Latn">(${immersionEscape(row.pinyin)})</span>` : ''} · ${immersionEscape(row.meaning)}</li>`).join('')}</ul>
-        </details>
-        <label class="im-checkbox"><input type="checkbox" data-im-day="${day}" ${state.done[day] ? 'checked' : ''}> Marcar dia ${day} como concluído</label>
-      </div></details>`;
-  }).join('');
+  const pending = immersionPending(lang, state, day);
+  const done = !!state.done[day];
+  const actions = {
+    trecho: ['material', 'Abrir trecho e fontes'],
+    vocab: ['material', 'Ver vocabulário'],
+    cards: ['review', 'Abrir flashcards'],
+    writing: ['writing', 'Copiar prompt de correção'],
+    roleplay: ['roleplay', 'Copiar prompt de simulação'],
+    checkin: ['checkin', 'Abrir check-in']
+  };
+  return `<article class="im-panel im-session" id="im-day-${day}" aria-labelledby="im-day-title">
+    <div class="im-session-top">
+      <div><span class="im-kicker">Dia ${day}</span><h3 id="im-day-title" tabindex="-1">${immersionDayTitle(lesson, day)}</h3></div>
+      <span class="im-session-time">${minutes} min</span>
+    </div>
+    <ol class="im-tasks">${tasks.map(([duration, title, action, target], step) => `<li>
+      <span class="im-task-time">${duration} min</span><div><strong>${title}</strong><p>${immersionEscape(action)}</p>
+        ${target ? `<div class="im-actions im-task-actions">
+          ${target === 'trecho' && index === 0 && step === 0 && day !== PROGRAMS[lang].totalDays
+            ? '<button type="button" class="im-button" data-im-action="speak">Ouvir no app</button>' : ''}
+          <button type="button" class="im-text-button" id="im-task-${day}-${step}" data-im-action="${actions[target][0]}" data-value="${target}">${actions[target][1]}</button>
+        </div>` : ''}
+      </div></li>`).join('')}</ol>
+    <details class="im-subpanel im-day-words" id="im-day-words-${day}" data-keep>
+      <summary>${lesson.final ? 'Vocabulário para revisar' : 'Vocabulário deste dia'} · ${daily.length} itens</summary>
+      <ul>${daily.map(row => `<li><strong lang="${markupLang}">${immersionEscape(row.word)}</strong>
+        ${row.pinyin ? `<span lang="zh-Latn">(${immersionEscape(row.pinyin)})</span>` : ''} · ${immersionEscape(row.meaning)}</li>`).join('')}</ul>
+    </details>
+    <footer class="im-session-footer">
+      <button id="im-complete" type="button" class="im-button ${done ? 'im-complete-done' : 'im-primary'}" data-im-action="toggle-day">${done ? '✓ Concluído · Desmarcar' : 'Concluir dia ' + day}</button>
+      ${pending ? `<button id="im-next-day" type="button" class="im-button" data-im-action="next-day">${pending.label} →</button>` : ''}
+    </footer>
+  </article>`;
+}
+
+function immersionStudy(lesson, lang, profile, state, view) {
+  const { theme, phase } = lesson;
+  const count = immersionWeekCount(lang);
+  return `<section class="im-panel im-week" id="im-week">
+    <div class="im-week-nav">
+      <button type="button" class="im-button" id="im-prev-week" data-im-action="select-week" data-value="${view.week - 1}" aria-label="Semana anterior" ${view.week === 1 ? 'disabled' : ''}>←</button>
+      <label for="im-picker" class="im-sr">Selecionar semana</label>
+      <select id="im-picker">${immersionWeekPicker(lang, view.week)}</select>
+      <button type="button" class="im-button" id="im-next-week" data-im-action="select-week" data-value="${view.week + 1}" aria-label="Próxima semana" ${view.week === count ? 'disabled' : ''}>→</button>
+    </div>
+    <div class="im-week-title">
+      <div><p class="im-kicker">Semana ${view.week} de ${count} · ${lesson.final ? 'Encerramento' : phase.num}</p>
+        <h2>${immersionEscape(theme.title)}</h2></div>
+      <label for="im-day-type">Escala 24×72<select id="im-day-type">${immersionOptions(IMMERSION_TYPES.map((name, i) => `${name} · ${profile.minutes[i]} min`), view.type)}</select></label>
+    </div>
+    <div id="im-day-navigation">${immersionStudyNavigation(lesson, state, view)}</div>
+    <details id="im-brief" class="im-subpanel im-brief" data-keep>
+      <summary>Objetivo, gramática e missão</summary>
+      <div class="im-brief-content">
+        <p>${immersionEscape(theme.goal)}.</p>
+        <p><strong>Gramática</strong> · ${immersionEscape(lesson.grammar)}</p>
+        <p><strong>Missão</strong> · ${immersionEscape(theme.roleplay)} ${immersionEscape(lesson.transfer)}</p>
+        ${profile.passive ? `<p class="im-muted">Em tempos mortos, reserve até ${profile.passive} min para um áudio que você já entende.</p>` : ''}
+      </div>
+    </details>
+  </section>
+  <div id="im-session-area">${immersionStudyDay(lesson, lang, profile, state, view)}</div>`;
 }
 
 function immersionVocabulary(lesson, lang) {
@@ -3952,15 +4072,29 @@ function immersionDeck(cards, revealed, lang) {
     </div>`}`;
 }
 
+function immersionTabs(view) {
+  return IMMERSION_TABS.map(([id, label]) => {
+    const selected = id === view.pane;
+    return `<button type="button" role="tab" id="im-tab-${id}" aria-controls="im-pane-${id}" aria-selected="${selected}" tabindex="${selected ? '0' : '-1'}" data-im-action="tab" data-value="${id}">${label}</button>`;
+  }).join('');
+}
+
+function immersionReturn(view) {
+  return `<button type="button" class="im-button im-return" data-im-action="back-study" data-study-return>← Voltar ao dia ${view.day}</button>`;
+}
+
+function immersionMaterialNav(view) {
+  return IMMERSION_MATERIALS.map(([id, label]) =>
+    `<button type="button" class="im-button" aria-controls="im-${id}" aria-pressed="${view.material === id}" data-im-action="material" data-value="${id}">${label}</button>`
+  ).join('');
+}
+
 function buildImmersion(lang) {
   const state = immersionState(lang);
   const profile = immersionProfile(lang, state);
   const view = immersionView(lang);
-  const count = immersionWeekCount(lang);
   const lesson = immersionLesson(lang, view.week, profile);
-  const { theme, primary, companion, phase } = lesson;
-  const options = IMMERSION_ORDER[lang].trim().split(/\s+/).map((key, index) => `Semana ${index + 1} · ${IMMERSION_THEMES[key].title}`);
-  const next = nextImmersionDay(lang, state, lesson.firstDay);
+  const { theme, primary, companion } = lesson;
   const edit = state.items[view.edit];
   const activeTime = profile.minutes.reduce((total, value) => total + value, 0) * 7 / 4;
   const weeklyHours = new Intl.NumberFormat('pt-BR', { maximumFractionDigits: 1 }).format(activeTime / 60);
@@ -3972,39 +4106,22 @@ function buildImmersion(lang) {
   const secondLink = IMMERSION_RESOURCES[lang].indexOf(companion);
   return `<section id="immersion" class="im-layout">
     <header class="im-hero">
-      <div><p class="im-kicker">Método natural · ${PROGRAMS[lang].name}</p><h1>Roteiro semanal</h1>
-        <p>${immersionEscape(profile.goal)}</p></div>
-      <div class="im-progress" id="im-progress" aria-live="polite">${buildImmersionProgress(lang, state)}</div>
+      <div class="im-hero-title"><p class="im-kicker">${PROGRAMS[lang].name}</p><h1>Roteiro semanal</h1></div>
+      <div class="im-progress" id="im-progress">${buildImmersionProgress(lang, state)}</div>
     </header>
-    <nav class="im-jumps" aria-label="Seções do roteiro">
-      <button type="button" class="im-button im-primary" data-im-action="next-day" ${next ? '' : 'disabled'}>Próximo dia</button>
-      <button type="button" class="im-button" data-im-action="jump" data-value="profile">Meu plano</button>
-      <button type="button" class="im-button" data-im-action="jump" data-value="barrel">Barril de conteúdos</button>
-      <button type="button" class="im-button" data-im-action="jump" data-value="cards">Flashcards</button>
-      <button type="button" class="im-button" data-im-action="jump" data-value="method">Como estudar</button>
-    </nav>
-    <div class="im-panel im-week" id="im-week">
-      <div class="im-week-nav">
-        <button type="button" class="im-button" data-im-action="select-week" data-value="${view.week - 1}" aria-label="Semana anterior" ${view.week === 1 ? 'disabled' : ''}>←</button>
-        <label for="im-picker" class="im-sr">Selecionar semana</label>
-        <select id="im-picker" aria-label="Selecionar semana">${immersionOptions(options, view.week - 1)}</select>
-        <button type="button" class="im-button" data-im-action="select-week" data-value="${view.week + 1}" aria-label="Próxima semana" ${view.week === count ? 'disabled' : ''}>→</button>
-      </div>
-      <p class="im-kicker">${view.week}/${count} · D${lesson.firstDay}–D${lesson.lastDay} · ${lesson.final ? 'Encerramento da trilha' : phase.name}</p>
-      <h2>${immersionEscape(theme.title)}</h2><p>${immersionEscape(theme.goal)}.</p>
-      <div class="im-brief">
-        <div><strong>Gramática em contexto</strong><p>${immersionEscape(lesson.grammar)}</p></div>
-        <div><strong>Missão</strong><p>${immersionEscape(theme.roleplay)}</p><p class="im-muted">${immersionEscape(lesson.transfer)}</p></div>
-      </div>
-      <div class="im-day-header">
-        <h3>Atividades diárias</h3>
-        <label>Tipo de dia <select id="im-day-type">${immersionOptions(IMMERSION_TYPES.map((name, i) => `${name} · ${profile.minutes[i]} min`), view.type)}</select></label>
-      </div>
-      <p class="im-muted">Selecione seu dia na escala 24×72. A prática abaixo usa o tempo escolhido. Em tempos mortos, reserve até ${profile.passive} min para um áudio já compreensível. Se o plantão apertar, retome do ponto em que parou.</p>
-      <div id="im-days">${immersionDays(lesson, lang, profile, state, view)}</div>
+    <nav class="im-tabs" id="im-tabs" role="tablist" aria-label="Áreas do roteiro">${immersionTabs(view)}</nav>
+    <div id="im-status" class="im-sr" role="status" aria-live="polite"></div>
+    <div id="im-pane-study" class="im-pane" role="tabpanel" aria-labelledby="im-tab-study" ${view.pane === 'study' ? '' : 'hidden'}>
+      ${immersionStudy(lesson, lang, profile, state, view)}
     </div>
-    <details class="im-panel" id="im-trecho" data-keep>
-      <summary>Trecho da semana e materiais</summary>
+    <div id="im-pane-materials" class="im-pane" role="tabpanel" aria-labelledby="im-tab-materials" ${view.pane === 'materials' ? '' : 'hidden'}>
+      <div class="im-subnav">
+        ${immersionReturn(view)}
+        <div class="im-actions" role="group" aria-label="Materiais da semana">${immersionMaterialNav(view)}</div>
+      </div>
+      <div data-im-material="trecho" ${view.material === 'trecho' ? '' : 'hidden'}>
+      <section class="im-panel" id="im-trecho" aria-labelledby="im-trecho-heading">
+      <h2 id="im-trecho-heading" tabindex="-1">Trecho da semana</h2>
       <div class="im-panel-content">
         <p><strong>${IMMERSION_BANDS[lesson.band]}</strong> · ${localGoals[lesson.band]}. Ouça antes de abrir a transcrição.${special}</p>
         <div class="im-actions"><button type="button" class="im-button im-primary" data-im-action="speak">Ouvir trecho</button>
@@ -4014,26 +4131,57 @@ function buildImmersion(lang) {
           <p>${immersionEscape(lesson.extension)}</p></div></details>
         <details class="im-subpanel" id="im-gloss" data-keep><summary>Conferir o sentido em português</summary><p>${immersionEscape(theme.gloss)}</p></details>
         <p><strong>Para conferir o sentido</strong> · ${immersionEscape(theme.questions[0])} ${lesson.band ? immersionEscape(theme.questions[1]) : ''}</p>
-        <p class="im-muted">Tema para buscar nas fontes: ${immersionEscape(theme.search)}. Se a busca não render em 60 s, use o trecho acima ou escolha um item pronto do barril.</p>
+        <p class="im-muted">Para encontrar outro trecho, use as fontes abaixo ou abra o barril.</p>
         <p><a href="${youtubeQuery}" target="_blank" rel="noopener noreferrer">Buscar no YouTube · ${immersionEscape(query)} ↗</a></p>
-        <ul class="im-resources">${immersionResource(primary, firstLink)}${immersionResource(companion, secondLink)}</ul>
+        <ul class="im-resources">${immersionResource(primary, firstLink, state)}${immersionResource(companion, secondLink, state)}</ul>
       </div>
-    </details>
-    <details class="im-panel" id="im-vocab" data-keep>
-      <summary>Vocabulário · ${lesson.lexicon.flat().length} palavras e expressões</summary>
-      <div class="im-panel-content"><p>Use os oito itens do núcleo na fala. Distribua os demais em encontros curtos na leitura e na escuta. Alguns retornam em novas situações ao longo da trilha.</p>
-      ${immersionVocabulary(lesson, lang)}</div>
-    </details>
-    <details class="im-panel" id="im-profile" data-keep>
-      <summary>Meu plano e diagnóstico</summary>
+    </section>
+      </div>
+      <div data-im-material="vocab" ${view.material === 'vocab' ? '' : 'hidden'}>
+      <section class="im-panel" id="im-vocab" aria-labelledby="im-vocab-heading">
+      <h2 id="im-vocab-heading" tabindex="-1">Vocabulário <span class="im-heading-meta">· ${lesson.lexicon.flat().length} itens</span></h2>
+      <div class="im-panel-content"><p>Comece pelas oito expressões do núcleo. Abra os grupos complementares quando precisar.</p>
+      <div class="im-vocab-groups">${immersionVocabulary(lesson, lang)}</div></div>
+    </section>
+      </div>
+      <div data-im-material="barrel" ${view.material === 'barrel' ? '' : 'hidden'}>
+      <section class="im-panel" id="im-barrel" aria-labelledby="im-barrel-heading">
+      <h2 id="im-barrel-heading" tabindex="-1">Barril de conteúdos <span class="im-heading-meta" id="im-barrel-count">· ${state.items.length} salvos</span></h2>
       <div class="im-panel-content">
-        <p>Seu ponto de partida é uma hipótese de trabalho. Ajuste o perfil depois da atividade diagnóstica.</p>
-        <p><strong>Diagnóstico inicial</strong> · ${profile.baseline}</p>
-        <p><strong>Horizonte de estudo</strong> · ${profile.estimate}</p>
-        <p><strong>Verificação da meta</strong> · ${profile.proof}</p>
-        <p><strong>Ponto de atenção</strong> · ${profile.pitfalls}</p>
-        <p class="im-muted">Sua configuração atual soma cerca de ${weeklyHours} h de prática ativa por semana nessa trilha, em média na escala 24×72. As faixas acima pressupõem também input compreensível e prática regular de fala. Se dividir a carga entre as três trilhas, recalcule pela carga efetivamente feita em cada idioma.</p>
-        <ul class="im-resources">${immersionResource(IMMERSION_RESOURCES[lang][4], 4)}</ul>
+        <p>Salve o tempo exato do trecho na nota e mantenha os materiais que merecem outra escuta em Repetir.</p>
+        <div class="im-barrel-folders" id="im-barrel-folders">${immersionSavedItems(state.items)}</div>
+        <form class="im-form im-edit-form" id="im-barrel-form">
+          <h3>${edit ? 'Editar material' : 'Guardar um material'}</h3>
+          <label>Título <input id="im-barrel-title" name="title" required maxlength="120" value="${immersionEscape(edit?.title)}"></label>
+          <label>Link <input type="url" name="url" required maxlength="1000" value="${immersionEscape(edit?.url)}"></label>
+          <label>Pasta <select name="folder">${immersionOptions(IMMERSION_FOLDERS, edit?.folder ?? 0)}</select></label>
+          <label>Situação <select name="status">${immersionOptions(IMMERSION_STATES, edit?.status ?? 0)}</select></label>
+          <label>Nota, nível e ponto de partida <input name="note" maxlength="200" value="${immersionEscape(edit?.note)}"></label>
+          <div class="im-actions"><button type="submit" class="im-button im-primary">Salvar material</button>
+          ${edit ? '<button type="button" class="im-button" data-im-action="cancel-edit">Cancelar</button>' : ''}</div>
+        </form>
+      </div>
+    </section>
+      </div>
+    </div>
+    <div id="im-pane-review" class="im-pane" role="tabpanel" aria-labelledby="im-tab-review" ${view.pane === 'review' ? '' : 'hidden'}>
+      <div class="im-subnav">${immersionReturn(view)}</div>
+      <section class="im-panel" id="im-cards" aria-labelledby="im-cards-heading">
+      <h2 id="im-cards-heading" tabindex="-1">Flashcards</h2>
+      <div class="im-panel-content">
+        <div id="im-deck">${immersionDeck(state.cards, view.revealed, lang)}</div>
+        <form class="im-form im-edit-form" id="im-card-form">
+          <label>Frente · frase ou expressão <input name="front" required maxlength="260" lang="${lang === 'zh' ? 'zh-Hans' : lang}"></label>
+          <label>Verso · sentido, som e fonte <textarea name="back" required maxlength="500" rows="2"></textarea></label>
+          <div><button type="submit" class="im-button im-primary">Criar cartão</button></div>
+        </form>
+      </div>
+    </section>
+    </div>
+    <div id="im-pane-plan" class="im-pane" role="tabpanel" aria-labelledby="im-tab-plan" ${view.pane === 'plan' ? '' : 'hidden'}>
+      <section class="im-panel" id="im-profile" aria-labelledby="im-profile-heading">
+      <h2 id="im-profile-heading" tabindex="-1">Meu plano</h2>
+      <div class="im-panel-content">
         <form class="im-form" id="im-profile-form">
           <label>Nível atual <input name="start" required maxlength="170" value="${immersionEscape(profile.start)}"></label>
           <label>Objetivo <input name="goal" required maxlength="170" value="${immersionEscape(profile.goal)}"></label>
@@ -4045,37 +4193,19 @@ function buildImmersion(lang) {
           <label>Minutos em tempos mortos <input type="number" name="passive" min="0" max="120" required value="${profile.passive}"></label>
           <div><button type="submit" class="im-button im-primary">Salvar meu plano</button></div>
         </form>
+        <details class="im-subpanel im-diagnosis" id="im-diagnosis" data-keep>
+          <summary>Diagnóstico, metas e estimativas</summary>
+          <div class="im-brief-content"><p>Seu ponto de partida é uma hipótese de trabalho. Ajuste o perfil depois da atividade diagnóstica.</p>
+        <p><strong>Diagnóstico inicial</strong> · ${profile.baseline}</p>
+        <p><strong>Horizonte de estudo</strong> · ${profile.estimate}</p>
+        <p><strong>Verificação da meta</strong> · ${profile.proof}</p>
+        <p><strong>Ponto de atenção</strong> · ${profile.pitfalls}</p>
+        <p class="im-muted">Sua configuração atual soma cerca de ${weeklyHours} h de prática ativa por semana nessa trilha, em média na escala 24×72. As faixas acima pressupõem também input compreensível e prática regular de fala. Se dividir a carga entre as três trilhas, recalcule pela carga efetivamente feita em cada idioma.</p>
+        <ul class="im-resources">${immersionResource(IMMERSION_RESOURCES[lang][4], 4, state)}</ul></div>
+        </details>
       </div>
-    </details>
-    <details class="im-panel" id="im-barrel" data-keep>
-      <summary>Barril de conteúdos · ${state.items.length} salvos</summary>
-      <div class="im-panel-content">
-        <p>Abasteça as pastas com material que passou no teste da ideia geral. Salve o tempo exato do trecho na nota. Mantenha uma fila curta e mova os que merecem outra escuta para Repetir.</p>
-        ${immersionSavedItems(state.items)}
-        <form class="im-form im-edit-form" id="im-barrel-form">
-          <h3>${edit ? 'Editar material' : 'Guardar um material'}</h3>
-          <label>Título <input name="title" required maxlength="120" value="${immersionEscape(edit?.title)}"></label>
-          <label>Link <input type="url" name="url" required maxlength="1000" value="${immersionEscape(edit?.url)}"></label>
-          <label>Pasta <select name="folder">${immersionOptions(IMMERSION_FOLDERS, edit?.folder ?? 0)}</select></label>
-          <label>Situação <select name="status">${immersionOptions(IMMERSION_STATES, edit?.status ?? 0)}</select></label>
-          <label>Nota, nível e ponto de partida <input name="note" maxlength="200" value="${immersionEscape(edit?.note)}"></label>
-          <div class="im-actions"><button type="submit" class="im-button im-primary">Salvar material</button>
-          ${edit ? '<button type="button" class="im-button" data-im-action="cancel-edit">Cancelar</button>' : ''}</div>
-        </form>
-      </div>
-    </details>
-    <details class="im-panel" id="im-cards" data-keep>
-      <summary>Flashcards e frases mineradas · ${state.cards.length} salvos</summary>
-      <div class="im-panel-content">
-        <div id="im-deck">${immersionDeck(state.cards, view.revealed, lang)}</div>
-        <form class="im-form im-edit-form" id="im-card-form">
-          <label>Frente · frase ou expressão <input name="front" required maxlength="260" lang="${lang === 'zh' ? 'zh-Hans' : lang}"></label>
-          <label>Verso · sentido, som e fonte <textarea name="back" required maxlength="500" rows="2"></textarea></label>
-          <div><button type="submit" class="im-button im-primary">Criar cartão</button></div>
-        </form>
-      </div>
-    </details>
-    <details class="im-panel" id="im-method" data-keep>
+    </section>
+      <details class="im-panel" id="im-method" data-keep>
       <summary>Como estudar por imersão</summary>
       <div class="im-panel-content">
         <dl class="im-method-list">${IMMERSION_TECHNIQUES.map(([title, body]) => `<div><dt>${title}</dt><dd>${body}</dd></div>`).join('')}</dl>
@@ -4091,6 +4221,7 @@ function buildImmersion(lang) {
         </div>
       </div>
     </details>
+    </div>
     <dialog class="im-copy-dialog" id="im-copy-dialog" aria-labelledby="im-copy-title">
       <h3 id="im-copy-title">Copiar prompt</h3>
       <p>Selecione e copie o texto para o seu chat de estudo.</p>
@@ -4100,34 +4231,152 @@ function buildImmersion(lang) {
   </section>`;
 }
 
-function immersionRedraw(keepOpen = true) {
-  const open = keepOpen ? new Map(Array.from(document.querySelectorAll('#immersion details[data-keep]'), el => [el.id, el.open])) : new Map();
-  const focus = document.activeElement;
-  renderPage('imersao');
-  document.querySelectorAll('#immersion details[data-keep]').forEach(el => {
-    if (open.has(el.id)) el.open = open.get(el.id);
-  });
-  if (focus?.id) document.getElementById(focus.id)?.focus({ preventScroll: true });
-}
-
-function jumpImmersion(id, scroll = true) {
-  const target = document.getElementById('im-' + id);
-  if (!target) return;
-  if (target.tagName === 'DETAILS') target.open = true;
-  if (scroll) {
+function immersionScroll(target) {
+  const nav = document.getElementById('im-tabs');
+  if (target.getBoundingClientRect().top < nav.getBoundingClientRect().bottom ||
+      target.getBoundingClientRect().top > document.getElementById('content').getBoundingClientRect().bottom - 80) {
     target.scrollIntoView({ block: 'start', behavior: 'auto' });
-    const summary = target.querySelector('summary');
-    if (summary) summary.focus({ preventScroll: true });
   }
 }
 
-function selectImmersionWeek(week) {
-  if (week < 1 || week > immersionWeekCount(currentLang)) return;
+function immersionFocus(id) {
+  const target = document.getElementById(id);
+  if (!target) return;
+  target.focus({ preventScroll: true });
+  immersionScroll(target);
+}
+
+function openImmersionPane(pane, heading) {
   const view = immersionView(currentLang);
+  view.pane = pane;
+  for (const [id] of IMMERSION_TABS) {
+    const selected = id === pane;
+    const tab = document.getElementById('im-tab-' + id);
+    tab.setAttribute('aria-selected', String(selected));
+    tab.tabIndex = selected ? 0 : -1;
+    document.getElementById('im-pane-' + id).hidden = !selected;
+  }
+  if (heading) immersionFocus(heading);
+  else immersionScroll(document.getElementById('im-pane-' + pane));
+}
+
+function openImmersionMaterial(material, entry) {
+  const view = immersionView(currentLang);
+  if (entry) view.returnFocus = entry;
+  view.material = material;
+  document.querySelectorAll('#immersion [data-im-material]').forEach(panel => {
+    panel.hidden = panel.dataset.imMaterial !== material;
+  });
+  document.querySelectorAll('#immersion .im-subnav [data-im-action="material"]').forEach(button => {
+    button.setAttribute('aria-pressed', String(button.dataset.value === material));
+  });
+  openImmersionPane('materials', 'im-' + material + '-heading');
+}
+
+function immersionSelectDay(day, focusId) {
+  const lang = currentLang;
+  const view = immersionView(lang);
+  if (!Number.isInteger(day) || day < 1 || day > PROGRAMS[lang].totalDays) return;
+  const week = Math.ceil(day / 7);
+  const changedWeek = week !== view.week;
   view.week = week;
-  setStore(currentLang, 'immersionWeek', week);
-  immersionRedraw(false);
-  document.getElementById('im-picker').focus({ preventScroll: true });
+  view.day = day;
+  view.returnFocus = '';
+  saveImmersionPosition(lang, view);
+  if (changedWeek) {
+    window.speechSynthesis?.cancel();
+    immersionRedraw(false);
+  } else {
+    refreshImmersionSession(lang);
+  }
+  immersionFocus(focusId || 'im-day-title');
+}
+
+function selectImmersionWeek(week, focusId) {
+  const lang = currentLang;
+  if (!Number.isInteger(week) || week < 1 || week > immersionWeekCount(lang)) return;
+  const view = immersionView(lang);
+  if (week === view.week) return;
+  const first = (week - 1) * 7 + 1;
+  const last = Math.min(first + 6, PROGRAMS[lang].totalDays);
+  const pending = nextImmersionDay(lang, immersionState(lang), first);
+  const ends = focusId === 'im-prev-week' && week === 1 || focusId === 'im-next-week' && week === immersionWeekCount(lang);
+  immersionSelectDay(pending && pending <= last ? pending : first, ends ? 'im-picker' : focusId);
+}
+
+function refreshImmersionSession(lang) {
+  const view = immersionView(lang);
+  const state = immersionState(lang);
+  const profile = immersionProfile(lang, state);
+  const lesson = immersionLesson(lang, view.week, profile);
+  const open = document.getElementById('im-day-words-' + view.day)?.open;
+  document.getElementById('im-day-navigation').innerHTML = immersionStudyNavigation(lesson, state, view);
+  document.getElementById('im-session-area').innerHTML = immersionStudyDay(lesson, lang, profile, state, view);
+  if (open) document.getElementById('im-day-words-' + view.day).open = true;
+  document.querySelectorAll('#immersion [data-study-return]').forEach(button => {
+    button.textContent = '← Voltar ao dia ' + view.day;
+  });
+}
+
+function immersionRedraw(keepOpen = true) {
+  const open = new Map();
+  document.querySelectorAll('#immersion details[data-keep]').forEach(details => {
+    if (keepOpen || details.id.startsWith('im-folder-') || details.id === 'im-method' || details.id === 'im-diagnosis') {
+      open.set(details.id, details.open);
+    }
+  });
+  const focusId = document.activeElement?.id;
+  renderPage('imersao');
+  for (const [id, isOpen] of open) {
+    const details = document.getElementById(id);
+    if (details) details.open = isOpen;
+  }
+  if (focusId) document.getElementById(focusId)?.focus({ preventScroll: true });
+}
+
+function restoreImmersionDrafts(lang) {
+  for (const [id, fields] of Object.entries(immersionView(lang).drafts)) {
+    const form = document.getElementById(id);
+    if (!form) continue;
+    for (const [name, value] of Object.entries(fields)) {
+      const field = form.elements.namedItem(name);
+      if (field) field.value = value;
+    }
+  }
+}
+
+function trackImmersionDraft(event) {
+  const form = event.target.form;
+  if (!form?.matches('#im-profile-form, #im-barrel-form, #im-card-form')) return;
+  immersionView(currentLang).drafts[form.id] = Object.fromEntries(new FormData(form));
+}
+
+function immersionTabKeys(event) {
+  const tab = event.target.closest('#im-tabs [role="tab"]');
+  if (!tab || !['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
+  event.preventDefault();
+  const index = IMMERSION_TABS.findIndex(([id]) => id === tab.dataset.value);
+  const length = IMMERSION_TABS.length;
+  const position = { Home: 0, End: length - 1, ArrowLeft: (index + length - 1) % length, ArrowRight: (index + 1) % length }[event.key];
+  const [id] = IMMERSION_TABS[position];
+  openImmersionPane(id);
+  document.getElementById('im-tab-' + id).focus({ preventScroll: true });
+}
+
+function updateImmersionResources(lang, state) {
+  const folders = document.getElementById('im-barrel-folders');
+  const open = new Map(Array.from(folders.querySelectorAll('details'), item => [item.id, item.open]));
+  folders.innerHTML = immersionSavedItems(state.items);
+  folders.querySelectorAll('details').forEach(item => {
+    if (open.has(item.id)) item.open = open.get(item.id);
+  });
+  document.getElementById('im-barrel-count').textContent = '· ' + state.items.length + ' salvos';
+  document.querySelectorAll('#immersion [data-im-action="save-resource"]').forEach(button => {
+    const resource = IMMERSION_RESOURCES[lang][Number(button.dataset.value)];
+    const saved = state.items.some(item => item.url === immersionURL(resource[1]));
+    button.textContent = saved ? '✓ Salvo' : 'Guardar';
+    button.setAttribute('aria-disabled', String(saved));
+  });
 }
 
 function addImmersionCard(state, front, back) {
@@ -4195,23 +4444,19 @@ function saveImmersionResource(lang, state, index) {
   const resource = IMMERSION_RESOURCES[lang][index];
   if (!resource) return;
   const url = immersionURL(resource[1]);
-  if (state.items.some(item => item.url === url)) {
-    toast('Este material já está no barril.');
-    jumpImmersion('barrel');
-    return;
-  }
+  if (state.items.some(item => item.url === url)) return;
   const mid = immersionView(lang).week;
   const choice = immersionBand(lang, mid, immersionProfile(lang, state));
   const folder = { es: [0, 1, 0, 1, 2], fr: [0, 0, 1, 1, 2], zh: [3, 2, 2, 0, 2] }[lang][index];
   state.items.push({ title: resource[0], url, folder, status: 0, note: IMMERSION_BANDS[choice] + ' · ' + resource[2] });
   if (!saveImmersion(lang, state)) return;
-  immersionRedraw();
-  jumpImmersion('barrel');
+  updateImmersionResources(lang, state);
+  toast('Material guardado no barril.');
 }
 
 function immersionClick(event) {
   const button = event.target.closest('#immersion [data-im-action]');
-  if (!button) return;
+  if (!button || button.getAttribute('aria-disabled') === 'true') return;
   const lang = currentLang;
   const view = immersionView(lang);
   const state = immersionState(lang);
@@ -4222,16 +4467,42 @@ function immersionClick(event) {
   const index = Number(value);
 
   switch (action) {
-    case 'jump': jumpImmersion(value); break;
-    case 'next-day': {
-      const day = nextImmersionDay(lang, state, lesson.firstDay);
-      if (!day) return;
-      const week = Math.ceil(day / 7);
-      if (view.week !== week) selectImmersionWeek(week);
-      jumpImmersion('day-' + day);
+    case 'tab':
+      if (value === 'study') view.returnFocus = '';
+      openImmersionPane(value);
+      break;
+    case 'material':
+      openImmersionMaterial(value, button.id);
+      break;
+    case 'review':
+      view.returnFocus = button.id;
+      openImmersionPane('review', 'im-cards-heading');
+      break;
+    case 'back-study': {
+      const focusId = view.returnFocus || 'im-day-title';
+      view.returnFocus = '';
+      openImmersionPane('study', focusId);
       break;
     }
-    case 'select-week': selectImmersionWeek(index); break;
+    case 'next-day': {
+      const pending = immersionPending(lang, state, view.day);
+      if (pending) immersionSelectDay(pending.day);
+      break;
+    }
+    case 'toggle-day': {
+      const day = view.day;
+      const completed = state.done[day] !== true;
+      if (completed) state.done[day] = true;
+      else delete state.done[day];
+      if (!saveImmersion(lang, state)) return;
+      refreshImmersionSession(lang);
+      document.getElementById('im-progress').innerHTML = buildImmersionProgress(lang, state);
+      document.getElementById('im-status').textContent = completed ? 'Dia ' + day + ' concluído.' : 'Dia ' + day + ' desmarcado.';
+      document.getElementById('im-complete').focus({ preventScroll: true });
+      break;
+    }
+    case 'select-day': immersionSelectDay(index, button.id); break;
+    case 'select-week': selectImmersionWeek(index, button.id); break;
     case 'speak': speakImmersion(lesson, lang, profile); break;
     case 'stop': window.speechSynthesis?.cancel(); break;
     case 'checkin': go('checkin', null); break;
@@ -4239,27 +4510,35 @@ function immersionClick(event) {
     case 'roleplay': void copyImmersionPrompt(immersionPrompt(action, lesson, lang, profile)); break;
     case 'save-resource': saveImmersionResource(lang, state, index); break;
     case 'edit-resource':
+      if (view.edit !== index) delete view.drafts['im-barrel-form'];
       view.edit = index;
       immersionRedraw();
-      document.querySelector('#im-barrel-form input').focus();
+      immersionFocus('im-barrel-title');
       break;
     case 'cancel-edit':
       view.edit = -1;
+      delete view.drafts['im-barrel-form'];
       immersionRedraw();
+      immersionFocus('im-barrel-heading');
       break;
     case 'remove-resource':
       state.items.splice(index, 1);
       if (!saveImmersion(lang, state)) return;
-      if (view.edit === index) view.edit = -1;
-      else if (view.edit > index) view.edit--;
-      immersionRedraw();
-      jumpImmersion('barrel', false);
+      if (view.edit === index) {
+        view.edit = -1;
+        delete view.drafts['im-barrel-form'];
+        immersionRedraw();
+      } else {
+        if (view.edit > index) view.edit--;
+        updateImmersionResources(lang, state);
+      }
+      immersionFocus('im-barrel-heading');
+      toast('Material removido.');
       break;
     case 'save-word': {
       const [group, row] = value.split(':').map(Number);
       const { word, meaning, pinyin } = lesson.lexicon[group][row];
       if (!addImmersionCard(state, word, [meaning, pinyin].filter(Boolean).join(' · ')) || !saveImmersion(lang, state)) return;
-      document.querySelector('#im-cards > summary').textContent = 'Flashcards e frases mineradas · ' + state.cards.length + ' salvos';
       document.getElementById('im-deck').innerHTML = immersionDeck(state.cards, view.revealed, lang);
       toast('Cartão adicionado.');
       break;
@@ -4284,9 +4563,8 @@ function immersionClick(event) {
       }
       if (!saveImmersion(lang, state)) return;
       view.revealed = false;
-      document.querySelector('#im-cards > summary').textContent = 'Flashcards e frases mineradas · ' + state.cards.length + ' salvos';
       document.getElementById('im-deck').innerHTML = immersionDeck(state.cards, false, lang);
-      (document.querySelector('[data-im-action="reveal-card"]') || document.querySelector('#im-cards > summary')).focus({ preventScroll: true });
+      (document.querySelector('[data-im-action="reveal-card"]') || document.getElementById('im-cards-heading')).focus({ preventScroll: true });
       break;
     }
   }
@@ -4294,26 +4572,17 @@ function immersionClick(event) {
 
 function immersionChange(event) {
   const input = event.target;
-  if (!input.closest('#immersion')) return;
-  const lang = currentLang;
-  const view = immersionView(lang);
   if (input.id === 'im-picker') {
-    selectImmersionWeek(Number(input.value) + 1);
+    selectImmersionWeek(Number(input.value), input.id);
   } else if (input.id === 'im-day-type') {
-    view.type = Number(input.value);
-    immersionRedraw();
-  } else if (input.matches('[data-im-day]')) {
-    const state = immersionState(lang);
-    const day = Number(input.dataset.imDay);
-    if (input.checked) state.done[day] = true;
-    else delete state.done[day];
-    if (!saveImmersion(lang, state)) {
-      input.checked = !input.checked;
-      return;
-    }
-    document.getElementById('im-progress').innerHTML = buildImmersionProgress(lang, state);
-    document.querySelector(`[data-day-indicator="${day}"]`).textContent = input.checked ? 'Concluído' : '';
-    document.querySelector('[data-im-action="next-day"]').disabled = !nextImmersionDay(lang, state);
+    const view = immersionView(currentLang);
+    const value = Number(input.value);
+    if (!Number.isInteger(value) || value < 0 || value >= IMMERSION_TYPES.length) return;
+    view.type = value;
+    saveImmersionPosition(currentLang, view);
+    refreshImmersionSession(currentLang);
+  } else {
+    trackImmersionDraft(event);
   }
 }
 
@@ -4353,8 +4622,10 @@ function immersionSubmit(event) {
     else state.items.push(item);
     if (!saveImmersion(lang, state)) return;
     view.edit = -1;
+    delete view.drafts[form.id];
     immersionRedraw();
-    jumpImmersion('folder-' + item.folder, false);
+    const folder = document.getElementById('im-folder-' + item.folder);
+    if (folder) folder.open = true;
     toast('Material salvo.');
     return;
   } else if (!addImmersionCard(state, field('front'), field('back'))) {
@@ -4362,13 +4633,18 @@ function immersionSubmit(event) {
   }
 
   if (!saveImmersion(lang, state)) return;
+  delete view.drafts[form.id];
   immersionRedraw();
-  toast(form.id === 'im-card-form' ? 'Cartão adicionado.' : 'Plano atualizado.');
+  const addedCard = form.id === 'im-card-form';
+  immersionFocus(addedCard ? 'im-cards-heading' : 'im-profile-heading');
+  toast(addedCard ? 'Cartão adicionado.' : 'Plano atualizado.');
 }
 
 const immersionRoot = document.getElementById('page-root');
 immersionRoot.addEventListener('click', immersionClick);
 immersionRoot.addEventListener('change', immersionChange);
+immersionRoot.addEventListener('input', trackImmersionDraft);
+immersionRoot.addEventListener('keydown', immersionTabKeys);
 immersionRoot.addEventListener('submit', immersionSubmit);
 
 for (const lang of IMMERSION_LANGS) CONTENT[lang].imersao = () => buildImmersion(lang);
